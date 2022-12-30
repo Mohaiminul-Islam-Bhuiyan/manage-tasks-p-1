@@ -7,7 +7,7 @@ const MyTask = () => {
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:5000/alltask?email=${user?.email}`)
+        fetch(`https://manage-tasks-p-1-server.vercel.app/alltask?email=${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 // console.log('received', data);
@@ -35,8 +35,8 @@ const MyTask = () => {
 
 
     return (
-        <div>
-            <h2 className='text-5xl'>You have: {reviews.length} Tasks</h2>
+        <div className='mb-20'>
+            <h2 className='text-5xl mb-3'>You have: {reviews.length} Tasks</h2>
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
 

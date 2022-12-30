@@ -10,7 +10,7 @@ const MyTaskRows = ({ rv, handleDelete }) => {
         <tr>
             <th>
                 <label>
-                    <button onClick={() => handleDelete(_id)} className='btn btn-ghost'>X</button>
+
                 </label>
             </th>
             <td>

@@ -1,18 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthProvider';
 
 const Login = () => {
 
     const { register, formState: { errors }, handleSubmit } = useForm()
-    const { signIn } = useContext(AuthContext)
+    const { signIn, signInWithGoogle, resetPassword } = useContext(AuthContext)
     const [loginError, setLoginError] = useState('')
     const [loginUserEmail, setLoginUserEmail] = useState('')
     const location = useLocation()
     const navigate = useNavigate()
 
-    const from = location.state?.from?.pathname || '/'
+    const from = location.state?.from?.pathname || '/addtask'
 
 
 
@@ -31,6 +32,24 @@ const Login = () => {
                 console.log(error)
             })
     }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(result => {
+                console.log(result.user);
+                toast.success('signed in with google')
+                navigate(from, { replace: true })
+            })
+    }
+
+    const handleReset = () => {
+        resetPassword(loginUserEmail)
+            .then(() => {
+                toast.success('reset link has been sent, please check email')
+            })
+            .catch(err => toast.error(err.message))
+    }
+
     return (
         <div className='h-[800px] flex justify-center items-center'>
             <div className='w-96 p-7'>
@@ -61,7 +80,7 @@ const Login = () => {
                         {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
 
                         <label className="label">
-                            <span className="label-text">Forget Password</span>
+                            <button onClick={handleReset}><span className="label-text">Forget Password</span></button>
                         </label>
                         <input />
                     </div>
@@ -76,7 +95,7 @@ const Login = () => {
                 <br />
                 <p>New to Doctors Portal <Link to='/signup' className='text-secondary'>Create new account</Link></p>
                 <div className="divider">OR</div>
-                <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
+                <button onClick={handleGoogleSignIn} className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );

@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { AuthContext } from '../contexts/AuthProvider';
 
 const SignUp = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm()
-    const { createUser, updateUser } = useContext(AuthContext)
+    const { createUser, updateUser, signInWithGoogle } = useContext(AuthContext)
     const [signupError, setSignupError] = useState("")
     const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/addtask'
 
     const [createdUserEmail, setCreatedUserEmail] = useState('')
 
@@ -35,6 +37,15 @@ const SignUp = () => {
             .catch(err => {
                 setSignupError(err.message)
                 console.log(err)
+            })
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(result => {
+                console.log(result.user);
+                toast.success('signed in with google')
+                navigate(from, { replace: true })
             })
     }
 
@@ -99,9 +110,7 @@ const SignUp = () => {
                             className="input input-bordered w-full max-w-xs" />
                         {errors.password && <p className='text-red-600'>{errors.password.message}</p>}
 
-                        <label className="label">
-                            <span className="label-text">Forget Password</span>
-                        </label>
+
                         <input />
                     </div>
                     <input className='btn btn-accent w-full' value="Signup" type="submit" />
@@ -112,7 +121,7 @@ const SignUp = () => {
                 <br />
                 <p>Already have an account <Link to='/login' className='text-secondary'>Please login</Link></p>
                 <div className="divider">OR</div>
-                <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
+                <button onClick={handleGoogleSignIn} className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );

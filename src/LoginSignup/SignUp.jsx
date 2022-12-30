@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast'
+import { toast } from 'react-toastify'
 import { AuthContext } from '../contexts/AuthProvider';
 
 const SignUp = () => {
@@ -22,7 +22,7 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user
                 console.log(user);
-                toast("user created successfully")
+                toast.success("user created successfully")
                 const userInfo = {
                     displayName: data.name
                 }

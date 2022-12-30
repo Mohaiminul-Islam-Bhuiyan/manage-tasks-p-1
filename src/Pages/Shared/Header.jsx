@@ -2,36 +2,49 @@ import React, { useContext } from 'react';
 import { FaTasks } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { Link, NavLink } from 'react-router-dom'
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const Header = () => {
 
+    const { user, logOut } = useContext(AuthContext)
 
-    const menuItems = <React.Fragment>
-        <li><NavLink to='/addtask'>Add Task</NavLink></li>
-        <li><NavLink to='/mytask'>My Tasks</NavLink></li>
-        <li><NavLink to='/completedtask'>Completed Task</NavLink></li>
-        {/* {
-            user?.uid ? (
-                <div className="dropdown dropdown-end">
-                    <label tabIndex={3} className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img src={user?.photoURL ? user.photoURL : 'NoImg'} alt="" />
+    const handleLogout = () => {
+        logOut()
+            .then(toast.warning('user logged out'))
+            .catch(err => console.log(err))
+    }
+
+
+    const menuItems =
+        <React.Fragment>
+            <li><NavLink to='/addtask'>Add Task</NavLink></li>
+            <li><NavLink to='/mytask'>My Tasks</NavLink></li>
+            <li><NavLink to='/completedtask'>Completed Task</NavLink></li>
+            {
+                user?.uid ? (
+                    <div>
+
+                        <div className="dropdown dropdown-end">
+                            <label tabIndex={3} className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src={user?.photoURL ? user.photoURL : 'NoImg'} alt="" />
+                                </div>
+                            </label>
+                            <ul tabIndex={4} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+                                <button onClick={handleLogout}>Logout</button>
+                            </ul>
                         </div>
-                    </label>
-                    <ul tabIndex={4} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                        <button onClick={handleLogout}>Logout</button>
-                    </ul>
-                </div>
-            )
-                :
-                (
-                    <>
-                        <li><NavLink to='/login'>Login</NavLink></li>
-                        <li><NavLink to='/signup'>Signup</NavLink></li>
-                    </>
+                    </div>
                 )
-        } */}
-    </React.Fragment>
+                    :
+                    (
+                        <>
+                            <li><NavLink to='/login'>Login</NavLink></li>
+                            <li><NavLink to='/signup'>Signup</NavLink></li>
+                        </>
+                    )
+            }
+        </React.Fragment>
 
     return (
         <div className="navbar bg-base-100 flex justify-between">

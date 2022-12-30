@@ -5,6 +5,7 @@ import SignUp from '../LoginSignup/SignUp'
 import AddTask from './AddTask'
 import CompletedTask from './CompletedTask'
 import MyTask from './MyTask'
+import PrivateRoute from './PrivateRoute'
 import ErrorPage from './Shared/ErrorPage'
 
 const router = createBrowserRouter([
@@ -15,26 +16,26 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <AddTask></AddTask>
-            },
-            {
-                path: '/addtask',
-                element: <AddTask></AddTask>
-            },
-            {
-                path: '/mytask',
-                element: <MyTask></MyTask>
-            },
-            {
-                path: '/completedtask',
-                element: <CompletedTask></CompletedTask>
-            },
-            {
-                path: 'login',
                 element: <Login></Login>
             },
             {
-                path: 'signup',
+                path: '/addtask',
+                element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
+            },
+            {
+                path: '/mytask',
+                element: <PrivateRoute><MyTask></MyTask></PrivateRoute>
+            },
+            {
+                path: '/completedtask',
+                element: <PrivateRoute><CompletedTask></CompletedTask></PrivateRoute>
+            },
+            {
+                path: '/login',
+                element: <Login></Login>
+            },
+            {
+                path: '/signup',
                 element: <SignUp></SignUp>
             }
         ]

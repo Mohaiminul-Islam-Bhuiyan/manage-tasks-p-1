@@ -3,7 +3,7 @@ import React from 'react';
 const CompletedTask = () => {
     return (
         <div>
-            this is completed task
+            comming soon...
         </div>
     );
 };

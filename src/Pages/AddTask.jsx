@@ -15,7 +15,25 @@ const AddTask = () => {
             task
         }
         console.log(addedtask);
+
+        fetch('http://localhost:5000/task', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(addedtask)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.acknowledged) {
+                    alert('your task added successfully')
+                    form.reset()
+                }
+            })
+            .catch(err => console.error(err))
     }
+
 
     return (
         <div className=' mb-40 mt-14'>
